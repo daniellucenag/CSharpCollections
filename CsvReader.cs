@@ -14,7 +14,7 @@ namespace CSharpCollections
             _csvFilePath = csvFilePath;
         }
 
-        public Country[] ReadFirstNCountries(int nCountries)
+        public Country[] ReadNCountriesToArray(int nCountries)
         {
             Country[] countries = new Country[nCountries];
 
@@ -30,7 +30,7 @@ namespace CSharpCollections
             return countries;
         }
         
-        public List<Country> ReadAllCountries()
+        public List<Country> ReadCountriesToList()
         {
             List<Country> countries = new List<Country>();
 
@@ -44,6 +44,26 @@ namespace CSharpCollections
                     line = sr.ReadLine();
                 }
             }   
+
+            return countries;
+        }
+
+        public Dictionary<string, Country> ReadCountriesToDictionary()
+        {
+            Dictionary<string, Country> countries = new Dictionary<string, Country>();
+
+            using (StreamReader sr = new StreamReader(_csvFilePath))
+            {
+                var line = sr.ReadLine();
+
+                while (line != null)
+                {
+                    var country = ReadCountryFromCsvLine(line);
+
+                    countries.Add(country.Code, country);
+                    line = sr.ReadLine();
+                }
+            }
 
             return countries;
         }

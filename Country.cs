@@ -18,5 +18,9 @@ namespace CSharpCollections
             Region = region;
             Population = population;
         }
+
+        public Country()
+        {
+        }
     }
 }

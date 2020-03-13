@@ -8,7 +8,9 @@ namespace CSharpCollections
         static void Main(string[] args)
         {
             //ReadCsvFileIntoArray(5);
-            ReadCsvFileIntoList();
+            //ReadCsvFileIntoList();
+            //ReadCsvFileIntoDictionary("BRA");
+            ReadCsvFileIntoDictionary();
         }
 
         public static void ArrayOfDays()
@@ -40,7 +42,7 @@ namespace CSharpCollections
         {
             CsvReader reader = StartCsv(@"../../../WorldPopulation.csv");
 
-            Country[] coutries = reader.ReadFirstNCountries(numberOfCountries);
+            Country[] coutries = reader.ReadNCountriesToArray(numberOfCountries);
 
             foreach (Country country in coutries)
             {
@@ -48,11 +50,33 @@ namespace CSharpCollections
             }
         }
 
+        public static void ReadCsvFileIntoDictionary(string requestedString = null)
+        {
+            CsvReader reader = StartCsv(@"../../../WorldPopulation.csv");
+
+            Dictionary<string, Country> coutries = reader.ReadCountriesToDictionary();
+
+            if (requestedString != null)
+            {
+                //single registry by key
+                var RequestedCountry = coutries[requestedString];
+                Console.WriteLine($"{RequestedCountry.Population}:{RequestedCountry.Name}");
+            }
+            else
+            {
+                //all registries
+                foreach (var country in coutries.Values)
+                {
+                    Console.WriteLine($"{country.Population}:{country.Name}");
+                }
+            }
+        }
+
         public static void ReadCsvFileIntoList()
         {
             CsvReader reader = StartCsv(@"../../../WorldPopulation.csv");
 
-            List<Country> coutries = reader.ReadAllCountries();
+            List<Country> coutries = reader.ReadCountriesToList();
 
             foreach (Country country in coutries)
             {
