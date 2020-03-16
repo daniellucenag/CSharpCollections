@@ -16,10 +16,10 @@ namespace CSharpCollections
 
         public Country[] ReadNCountriesToArray(int nCountries)
         {
-            Country[] countries = new Country[nCountries];
+            var countries = new Country[nCountries];
 
             using (StreamReader sr = new StreamReader(_csvFilePath))
-            {  
+            {
                 for (int i = 0; i < nCountries; i++)
                 {
                     string csvLine = sr.ReadLine();
@@ -32,7 +32,7 @@ namespace CSharpCollections
         
         public List<Country> ReadCountriesToList()
         {
-            List<Country> countries = new List<Country>();
+            var countries = new List<Country>();
 
             using (StreamReader sr = new StreamReader(_csvFilePath))
             { 
@@ -43,14 +43,14 @@ namespace CSharpCollections
                     countries.Add(ReadCountryFromCsvLine(line));
                     line = sr.ReadLine();
                 }
-            }   
+            }
 
             return countries;
         }
 
         public Dictionary<string, Country> ReadCountriesToDictionary()
         {
-            Dictionary<string, Country> countries = new Dictionary<string, Country>();
+            var countries = new Dictionary<string, Country>();
 
             using (StreamReader sr = new StreamReader(_csvFilePath))
             {
@@ -68,6 +68,32 @@ namespace CSharpCollections
             return countries;
         }
 
+        public Dictionary<string, List<Country>> ReadCountriesToDictionaryGroupByRegion()
+        {
+            var countries = new Dictionary<string, List<Country>>();
+
+            using (StreamReader sr = new StreamReader(_csvFilePath))
+            {
+                string line;
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    var country = ReadCountryFromCsvLine(line);
+                    if (countries.ContainsKey(country.Region))
+                    {
+                        countries[country.Region].Add(country);
+                    }
+                    else
+                    {
+                        List<Country> coutriesInRegion = new List<Country>() { country };
+                        countries.Add(country.Region, coutriesInRegion);
+                    }
+                }
+            }
+
+            return countries;
+        }
+
         public Country ReadCountryFromCsvLine(string csvLine)
         {
             string[] parts = csvLine.Split(';');
@@ -78,7 +104,6 @@ namespace CSharpCollections
                 parts[2],
                 int.Parse(parts[3])
             );
-                
         }
     }
 }

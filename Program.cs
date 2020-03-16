@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CSharpCollections
 {
@@ -79,7 +80,7 @@ namespace CSharpCollections
             List<Country> coutries = reader.ReadCountriesToList();
 
             foreach (Country country in coutries)
-            {
+            { 
                 Console.WriteLine($"{country.Population}:{country.Name}");
             }
         }
